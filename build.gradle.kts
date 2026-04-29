@@ -1,3 +1,4 @@
+import com.github.javaparser.printer.concretesyntaxmodel.CsmElement.token
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 plugins {
@@ -42,7 +43,7 @@ intellijPlatform {
       sinceBuild = providers.gradleProperty("pluginSinceBuild")
       untilBuild = provider { null }  // open-ended
     }
-    name = "Profiles"
+    name = "Plugin Profiles"
     description = """
             Define plugin sets as profiles and switch between them
             based on your current work context.
@@ -57,6 +58,10 @@ intellijPlatform {
     ides {
       recommended()
     }
+  }
+
+  publishing {
+    token.set(System.getenv("PUBLISH_TOKEN"))
   }
 }
 

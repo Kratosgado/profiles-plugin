@@ -76,7 +76,47 @@ class ProfilesConfigurable : Configurable {
 
         // Populate right list (checkboxes)
         val manageablePlugins = getAllManageablePlugins().sortedBy { it.name }
+        val pluginMap = manageablePlugins.associateBy { it.pluginId.idString }
         pluginCheckboxes.clear()
+
+        fun getDependencies(idStr: String): Set<String> {
+            val deps = mutableSetOf<String>()
+            val queue = ArrayDeque<String>()
+            queue.add(idStr)
+            while (queue.isNotEmpty()) {
+                val current = queue.removeFirst()
+                val p = pluginMap[current] ?: continue
+                for (dep in p.dependencies) {
+                    if (!dep.isOptional) {
+                        val depId = dep.pluginId.idString
+                        if (pluginMap.containsKey(depId) && deps.add(depId)) {
+                            queue.add(depId)
+                        }
+                    }
+                }
+            }
+            return deps
+        }
+
+        fun getDependents(idStr: String): Set<String> {
+            val dependents = mutableSetOf<String>()
+            val queue = ArrayDeque<String>()
+            queue.add(idStr)
+            while (queue.isNotEmpty()) {
+                val current = queue.removeFirst()
+                for (p in manageablePlugins) {
+                    val pId = p.pluginId.idString
+                    if (!dependents.contains(pId)) {
+                        val hasDep = p.dependencies.any { !it.isOptional && it.pluginId.idString == current }
+                        if (hasDep) {
+                            dependents.add(pId)
+                            queue.add(pId)
+                        }
+                    }
+                }
+            }
+            return dependents
+        }
         
         for (plugin in manageablePlugins) {
             val cb = JBCheckBox(plugin.name)
@@ -85,16 +125,24 @@ class ProfilesConfigurable : Configurable {
                 val selectedProfile = currentlySelectedProfile ?: return@addActionListener
                 val idStr = plugin.pluginId.idString
                 if (cb.isSelected) {
-                    if (selectedProfile == GLOBAL_PLUGINS_KEY) {
-                        editingGlobalPlugins.add(idStr)
-                    } else {
-                        editingProfiles[selectedProfile]?.add(idStr)
+                    val idsToAdd = getDependencies(idStr) + idStr
+                    for (id in idsToAdd) {
+                        if (selectedProfile == GLOBAL_PLUGINS_KEY) {
+                            editingGlobalPlugins.add(id)
+                        } else {
+                            editingProfiles[selectedProfile]?.add(id)
+                        }
+                        pluginCheckboxes[id]?.isSelected = true
                     }
                 } else {
-                    if (selectedProfile == GLOBAL_PLUGINS_KEY) {
-                        editingGlobalPlugins.remove(idStr)
-                    } else {
-                        editingProfiles[selectedProfile]?.remove(idStr)
+                    val idsToRemove = getDependents(idStr) + idStr
+                    for (id in idsToRemove) {
+                        if (selectedProfile == GLOBAL_PLUGINS_KEY) {
+                            editingGlobalPlugins.remove(id)
+                        } else {
+                            editingProfiles[selectedProfile]?.remove(id)
+                        }
+                        pluginCheckboxes[id]?.isSelected = false
                     }
                 }
             }

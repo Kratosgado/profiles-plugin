@@ -1,0 +1,66 @@
+name: Build and Publish
+
+on:
+  # Trigger the workflow on pushes to main or pull requests
+  push:
+    branches:
+      - main
+  pull_request:
+  
+  # Trigger the publish job when a new GitHub Release is created
+  release:
+    types: [published]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch Sources
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: 17
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Build Plugin
+        run: ./gradlew buildPlugin
+
+      - name: Verify Plugin
+        run: ./gradlew verifyPlugin
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: plugin-artifact
+          path: build/distributions/*
+
+  publish:
+    name: Publish to JetBrains Marketplace
+    needs: [build]
+    # Only run this job if the workflow was triggered by a release publication
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch Sources
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: 17
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Publish Plugin
+        env:
+          # This token needs to be added as a Secret in your GitHub Repository settings
+          PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
+        run: ./gradlew publishPlugin
