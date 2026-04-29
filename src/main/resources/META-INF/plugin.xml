@@ -5,10 +5,10 @@
 
     <!-- Public plugin name should be written in Title Case.
      Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-name -->
-    <name>Profiles</name>
+    <name>Plugin Profiles</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor url="https://www.yourcompany.com">YourCompany</vendor>
+    <vendor url="https://kratosgado.github.io">Kratosado</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-description -->
@@ -26,8 +26,12 @@
     <!-- Extensions defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="MyToolWindow" factoryClass="com.kratosgado.MyToolWindowFactory"
-                    icon="AllIcons.Toolwindows.ToolWindowPalette"/>
+        <statusBarWidgetFactory id="PluginProfilesWidget" implementation="com.example.profiles.ui.ProfileStatusBarWidgetFactory"/>
+        <postStartupActivity implementation="com.example.profiles.startup.ProfileProjectActivity"/>
+        
+        <applicationConfigurable id="com.example.profiles.settings.ProfilesConfigurable" 
+                                 instance="com.example.profiles.settings.ProfilesConfigurable" 
+                                 displayName="Plugin Profiles"/>
     </extensions>
 
 </idea-plugin>

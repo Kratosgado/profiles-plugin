@@ -1,3 +1,5 @@
+import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+
 plugins {
   id("java")
   alias(libs.plugins.kotlin)
@@ -22,9 +24,11 @@ repositories {
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html
 dependencies {
   intellijPlatform {
-//    intellijIdea(providers.gradleProperty("platformVersion"))
-    intellijIdea("2026.1.1")
-    testFramework(org.jetbrains.intellij.platform.gradle.TestFrameworkType.Platform)
+    intellijIdea(providers.gradleProperty("platformVersion"))
+    pluginVerifier()
+    zipSigner()
+    testFramework(TestFrameworkType.Platform)
+
 
     // Add plugin dependencies for compilation here, for example:
     // bundledPlugin("com.intellij.java")
@@ -36,11 +40,23 @@ intellijPlatform {
   pluginConfiguration {
     ideaVersion {
       sinceBuild = providers.gradleProperty("pluginSinceBuild")
+      untilBuild = provider { null }  // open-ended
     }
+    name = "Profiles"
+    description = """
+            Define plugin sets as profiles and switch between them
+            based on your current work context.
+        """.trimIndent()
 
     changeNotes = """
             Initial version
         """.trimIndent()
+  }
+
+  pluginVerification {
+    ides {
+      recommended()
+    }
   }
 }
 
