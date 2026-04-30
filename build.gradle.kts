@@ -1,4 +1,3 @@
-import com.github.javaparser.printer.concretesyntaxmodel.CsmElement.token
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 plugins {
@@ -8,7 +7,7 @@ plugins {
 }
 
 group = "com.kratosgado"
-version = "1.0.0-SNAPSHOT"
+version = "1.0.0"
 
 // Set the JVM language level used to build the project.
 kotlin {
@@ -43,15 +42,30 @@ intellijPlatform {
       sinceBuild = providers.gradleProperty("pluginSinceBuild")
       untilBuild = provider { null }  // open-ended
     }
-    name = "Plugin Profiles"
+    name = "IDE Profiles"
     description = """
-            Define plugin sets as profiles and switch between them
-            based on your current work context.
-        """.trimIndent()
+        <p>
+          <b>IDE Profiles</b> lets you define named sets of enabled plugins and switch between them
+          instantly based on your current work context — frontend, backend, data science, and more.
+        </p>
+        <ul>
+          <li><b>Create profiles</b> — capture the current set of enabled/disabled plugins as a named profile.</li>
+          <li><b>Switch instantly</b> — switch profiles from the status bar widget with a single click.</li>
+          <li><b>Per-project binding</b> — bind a project to a profile so the right plugins activate automatically when you open it.</li>
+          <li><b>Global plugins</b> — mark plugins as "always on" so they remain enabled across all profiles.</li>
+        </ul>
+        <p>Stop toggling plugins manually. Let your IDE adapt to what you're working on.</p>
+    """.trimIndent()
 
     changeNotes = """
-            Initial version
-        """.trimIndent()
+        <ul>
+          <li>Initial release.</li>
+          <li>Create, save, and switch named plugin profiles.</li>
+          <li>Status bar widget for quick profile switching.</li>
+          <li>Per-project profile binding with automatic activation on project open.</li>
+          <li>Global plugins list for always-on plugins.</li>
+        </ul>
+    """.trimIndent()
   }
 
   pluginVerification {

@@ -1,37 +1,33 @@
-<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
     <id>com.kratosgado.profiles</id>
+    <name>IDE Profiles</name>
 
-    <!-- Public plugin name should be written in Title Case.
-     Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-name -->
-    <name>Plugin Profiles</name>
+    <vendor url="https://kratosgado.github.io">Kratosgado</vendor>
 
-    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor url="https://kratosgado.github.io">Kratosado</vendor>
-
-    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
-         Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-description -->
     <description><![CDATA[
-        Enter short description for your plugin here.<br>
-        <em>most HTML tags may be used</em>
-        ]]></description>
+        <p>
+          <b>IDE Profiles</b> lets you define named sets of enabled plugins and switch between them
+          instantly based on your current work context — frontend, backend, data science, and more.
+        </p>
+        <ul>
+          <li><b>Create profiles</b> — capture the current set of enabled/disabled plugins as a named profile.</li>
+          <li><b>Switch instantly</b> — switch profiles from the status bar widget with a single click.</li>
+          <li><b>Per-project binding</b> — bind a project to a profile so the right plugins activate automatically when you open it.</li>
+          <li><b>Global plugins</b> — mark plugins as "always on" so they remain enabled across all profiles.</li>
+        </ul>
+        <p>Stop toggling plugins manually. Let your IDE adapt to what you're working on.</p>
+    ]]></description>
 
-    <!-- Product and plugin compatibility requirements.
-         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
 
-    <resource-bundle>messages.MyMessageBundle</resource-bundle>
-
-    <!-- Extensions defined by the plugin.
-         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-        <statusBarWidgetFactory id="PluginProfilesWidget" implementation="com.example.profiles.ui.ProfileStatusBarWidgetFactory"/>
-        <postStartupActivity implementation="com.example.profiles.startup.ProfileProjectActivity"/>
-        
-        <applicationConfigurable id="com.example.profiles.settings.ProfilesConfigurable" 
-                                 instance="com.example.profiles.settings.ProfilesConfigurable" 
-                                 displayName="Plugin Profiles"/>
+        <statusBarWidgetFactory id="PluginProfilesWidget"
+                                implementation="com.kratosgado.profiles.ui.ProfileStatusBarWidgetFactory"/>
+        <postStartupActivity implementation="com.kratosgado.profiles.startup.ProfileProjectActivity"/>
+
+        <applicationConfigurable id="com.kratosgado.profiles.settings.ProfilesConfigurable"
+                                 instance="com.kratosgado.profiles.settings.ProfilesConfigurable"
+                                 displayName="IDE Profiles"/>
     </extensions>
 
 </idea-plugin>

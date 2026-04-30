@@ -1,12 +1,37 @@
 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M32.0845 7.94025V4H24.0203V7.9896H16.029V4H7.91553V7.94025H4V36H16.0044V32.0045C16.0058 30.9457 16.4274 29.9308 17.1766 29.1826C17.9258 28.4345 18.9412 28.0143 20 28.0143C21.0588 28.0143 22.0743 28.4345 22.8234 29.1826C23.5726 29.9308 23.9942 30.9457 23.9956 32.0045V36H36V7.94025H32.0845Z"
-          fill="url(#paint0_linear)"/>
+    <!-- Background rounded square -->
+    <rect width="40" height="40" rx="8" fill="url(#bgGrad)"/>
+
+    <!-- Bottom profile layer (shadow card) -->
+    <rect x="9" y="28" width="22" height="3" rx="1.5" fill="white" opacity="0.25"/>
+
+    <!-- Middle profile layer -->
+    <rect x="7" y="24" width="26" height="3" rx="1.5" fill="white" opacity="0.4"/>
+
+    <!-- Top active profile card -->
+    <rect x="5" y="10" width="30" height="16" rx="3" fill="white" opacity="0.95"/>
+
+    <!-- Puzzle plug notch (left side of top card) -->
+    <rect x="3" y="15" width="4" height="6" rx="1" fill="white" opacity="0.95"/>
+    <circle cx="5" cy="18" r="1.5" fill="url(#bgGrad)"/>
+
+    <!-- Toggle row 1: enabled (filled dot) -->
+    <circle cx="13" cy="15" r="2.5" fill="url(#toggleOn)"/>
+    <rect x="17" y="14" width="12" height="2" rx="1" fill="#CBD5E1"/>
+
+    <!-- Toggle row 2: disabled -->
+    <circle cx="13" cy="22" r="2.5" fill="#CBD5E1"/>
+    <rect x="17" y="21" width="9" height="2" rx="1" fill="#CBD5E1"/>
+
     <defs>
-        <linearGradient id="paint0_linear" x1="2.94192" y1="4.89955" x2="37.7772" y2="39.7345"
-                        gradientUnits="userSpaceOnUse">
-            <stop offset="0.15937" stop-color="#3BEA62"/>
-            <stop offset="0.5404" stop-color="#3C99CC"/>
-            <stop offset="0.93739" stop-color="#6B57FF"/>
+        <linearGradient id="bgGrad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#3B82F6"/>
+            <stop offset="0.5" stop-color="#6366F1"/>
+            <stop offset="1" stop-color="#8B5CF6"/>
+        </linearGradient>
+        <linearGradient id="toggleOn" x1="10.5" y1="12.5" x2="15.5" y2="17.5" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#3BEA62"/>
+            <stop offset="1" stop-color="#3B82F6"/>
         </linearGradient>
     </defs>
 </svg>
