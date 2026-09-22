@@ -46,7 +46,7 @@ object ProfileManager {
   fun isRestartRequired(): Boolean {
     // As per requirements: "using PluginManagerConfigurable.isRestartRequired()"
     // Since it may not be directly accessible in this API version, we use reflection
-    // to safely invoke PluginManagerConfigurable.isRestartRequired() if it exists.
+    // to safely invoke PluginManagerConfigurable.isRes tartRequired() if it exists.
     return try {
       val clazz = Class.forName("com.intellij.ide.plugins.PluginManagerConfigurable")
       val method = clazz.getMethod("isRestartRequired")

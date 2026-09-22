@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.kratosgado"
-version = "1.0.0"
+version = "2026.5.1"
 
 // Set the JVM language level used to build the project.
 kotlin {
@@ -82,5 +82,14 @@ intellijPlatform {
 tasks {
   wrapper {
     gradleVersion = providers.gradleProperty("gradleVersion").get()
+  }
+  signPlugin {
+    certificateChain.set(providers.environmentVariable("CERTIFICATE_CHAIN"))
+    privateKey.set(providers.environmentVariable("PRIVATE_KEY"))
+    password.set(providers.environmentVariable("PRIVATE_KEY_PASSWORD"))
+  }
+
+  publishPlugin {
+    token.set(providers.environmentVariable("PUBLISH_TOKEN"))
   }
 }
